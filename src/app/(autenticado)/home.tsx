@@ -14,7 +14,8 @@ type MenuItem = {
 const menuItems: MenuItem[] = [
   { title: "Clientes", subtitle: "Gerenciar", icon: "people-outline" },
   { title: "Serviços", subtitle: "Gerenciar", icon: "cut-outline", href: "/servicos" },
-  { title: "Produtos", subtitle: "Gerenciar", icon: "bag-outline", href: "/produtos" },  { title: "Combos", subtitle: "Gerenciar", icon: "gift-outline" },
+  { title: "Produtos", subtitle: "Gerenciar", icon: "bag-outline", href: "/produtos" },  
+  { title: "Combos", subtitle: "Gerenciar", icon: "gift-outline", href: "/combos" },
   { title: "Ordens de Serv.", subtitle: "Gerenciar", icon: "document-text-outline" },
   { title: "Dashboard", subtitle: "Gerenciar", icon: "trending-up-outline" },
   { title: "Funcionários", subtitle: "Gerenciar", icon: "person-outline" },

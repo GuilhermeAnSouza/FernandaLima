@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { ReactNode, useState } from "react";   // + ReactNodeimport { ScrollView, StyleSheet, Text, View } from "react-native";
 import { router } from "expo-router";
 import { Button } from "@/components/Button";
 import { ConfirmModal } from "@/components/ConfirmModal";
@@ -10,12 +9,14 @@ import { StatusTag } from "@/components/StatusTag";
 import { useToast } from "@/components/ToastProvider";
 import { colors, radius, spacing, typography } from "@/constants/theme";
 import { getErrorMessage } from "@/services/api";
+import { ScrollView, View, StyleSheet, Text } from "react-native";
 
 type FichaCadastroProps = {
   titulo: string;        // "Ficha do Serviço"
   nomeEntidade: string;  // "serviço" / "produto"
   nome: string;
   ativo: boolean;
+  children?: ReactNode; // seções extras abaixo do card (ex.: itens do combo)
   campos: { label: string; value: string }[];
   onEditar: () => void;
   onInativar: () => Promise<void>;
@@ -23,7 +24,7 @@ type FichaCadastroProps = {
 };
 
 export function FichaCadastro({
-  titulo, nomeEntidade, nome, ativo, campos, onEditar, onInativar, onReativar,
+  titulo, nomeEntidade, nome, ativo, campos, onEditar, onInativar, onReativar, children,
 }: FichaCadastroProps) {
   const { showToast } = useToast();
   const [confirmando, setConfirmando] = useState(false);
@@ -61,6 +62,7 @@ export function FichaCadastro({
             <DetailField key={campo.label} label={campo.label} value={campo.value} />
           ))}
         </View>
+        {children}
       </ScrollView>
 
       <ScreenFooter>
