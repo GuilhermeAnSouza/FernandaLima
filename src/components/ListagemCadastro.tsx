@@ -29,10 +29,13 @@ type ListagemCadastroProps<T extends ItemBase> = {
   onRecarregar: () => void;
   onAdicionar: () => void;
   renderCard: (item: T) => ReactNode;
+  colunas?: 1 | 2;                    // padrão 2 (grade); clientes usam lista de 1 coluna
+  textoBusca?: (item: T) => string;   // padrão: busca só pelo nome
 };
 
 export function ListagemCadastro<T extends ItemBase>({
   titulo, placeholderBusca, rotuloPlural, itens, carregando, erro, onRecarregar, onAdicionar, renderCard,
+  colunas = 2, textoBusca = (item) => item.nome,
 }: ListagemCadastroProps<T>) {
   const [busca, setBusca] = useState("");
   const [filtro, setFiltro] = useState<FiltroStatus>("ativos");
@@ -44,9 +47,9 @@ export function ListagemCadastro<T extends ItemBase>({
     return itens.filter((i) => {
       if (filtro === "ativos" && !i.ativo) return false;
       if (filtro === "inativos" && i.ativo) return false;
-      return !termo || normalizeText(i.nome).includes(termo);
+      return !termo || normalizeText(textoBusca(i)).includes(termo);
     });
-  }, [itens, busca, filtro]);
+  }, [itens, busca, filtro, textoBusca]);
 
   return (
     <View style={styles.flex}>
@@ -74,13 +77,14 @@ export function ListagemCadastro<T extends ItemBase>({
       <FlatList
         data={filtrados}
         keyExtractor={(item) => item.id}
-        numColumns={2}
+        key={colunas} // numColumns não pode mudar sem remontar a lista
+        numColumns={colunas}
         contentContainerStyle={styles.lista}
         keyboardShouldPersistTaps="handled"
         keyboardDismissMode="on-drag"
         refreshing={carregando && !primeiraCarga}
         onRefresh={onRecarregar}
-        renderItem={({ item }) => <View style={styles.cell}>{renderCard(item)}</View>}
+        renderItem={({ item }) => <View style={colunas === 1 ? styles.cellFull : styles.cell}>{renderCard(item)}</View>}
         ListEmptyComponent={
           primeiraCarga ? (
             <ActivityIndicator style={styles.estado} color={colors.primary} />
@@ -119,6 +123,7 @@ const styles = StyleSheet.create({
   filtros: { marginHorizontal: spacing.lg, marginBottom: spacing.sm },
   lista: { paddingHorizontal: spacing.lg - 6, paddingBottom: spacing.lg },
   cell: { width: "50%", padding: 6 },
+  cellFull: { width: "100%", padding: 6 },
   estado: { marginTop: spacing.xxl, gap: spacing.md, paddingHorizontal: spacing.lg },
   vazio: { ...typography.body, color: colors.textLight, textAlign: "center", marginTop: spacing.xxl },
   contagem: { ...typography.small, color: colors.textLight, textAlign: "center", marginTop: spacing.lg },

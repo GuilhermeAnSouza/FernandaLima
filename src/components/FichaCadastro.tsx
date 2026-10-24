@@ -1,4 +1,4 @@
-import { ReactNode, useState } from "react";   // + ReactNodeimport { ScrollView, StyleSheet, Text, View } from "react-native";
+import { ReactNode, useState } from "react";
 import { router } from "expo-router";
 import { Button } from "@/components/Button";
 import { ConfirmModal } from "@/components/ConfirmModal";
@@ -17,6 +17,8 @@ type FichaCadastroProps = {
   nome: string;
   ativo: boolean;
   children?: ReactNode; // seções extras abaixo do card (ex.: itens do combo)
+  avatar?: ReactNode;   // opcional, à esquerda do nome (ex.: iniciais do cliente)
+  avisoInativacao?: string; // texto extra do modal de inativação (padrão fala de vendas)
   campos: { label: string; value: string }[];
   onEditar: () => void;
   onInativar: () => Promise<void>;
@@ -24,7 +26,8 @@ type FichaCadastroProps = {
 };
 
 export function FichaCadastro({
-  titulo, nomeEntidade, nome, ativo, campos, onEditar, onInativar, onReativar, children,
+  titulo, nomeEntidade, nome, ativo, campos, onEditar, onInativar, onReativar, children, avatar,
+  avisoInativacao = "Ele deixa de aparecer para novas vendas, mas o histórico e os relatórios são mantidos. Você pode reativá-lo depois.",
 }: FichaCadastroProps) {
   const { showToast } = useToast();
   const [confirmando, setConfirmando] = useState(false);
@@ -53,6 +56,7 @@ export function FichaCadastro({
       <ScrollView contentContainerStyle={styles.content}>
         <View style={styles.card}>
           <View style={styles.cabecalho}>
+            {avatar}
             <Text style={styles.titulo}>{nome}</Text>
             <StatusTag ativo={ativo} />
           </View>
@@ -85,7 +89,7 @@ export function FichaCadastro({
         icon="eye-off-outline"
         title="Confirmar inativação"
         message={`Tem certeza que deseja inativar este ${nomeEntidade}?`}
-        warning="Ele deixa de aparecer para novas vendas, mas o histórico e os relatórios são mantidos. Você pode reativá-lo depois."
+        warning={avisoInativacao}
         confirmLabel="Inativar"
         loading={processando}
         onConfirm={() => executar(onInativar, `${entidade} inativado com sucesso`)}
