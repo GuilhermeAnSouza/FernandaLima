@@ -46,6 +46,9 @@ function criarClienteHttp(baseURL: string | undefined): AxiosInstance {
 
 export const api = criarClienteHttp(process.env.EXPO_PUBLIC_API_URL);
 
+export const ordemServicoApi = criarClienteHttp(
+  process.env.EXPO_PUBLIC_ORDEM_SERVICO_API_URL
+);
 // transforma qualquer erro do axios numa mensagem pronta pra mostrar no toast
 export function getErrorMessage(
   error: unknown,

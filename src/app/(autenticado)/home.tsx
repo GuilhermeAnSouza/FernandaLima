@@ -1,8 +1,8 @@
+import { Card } from "@/components/Card";
+import { colors, radius, spacing } from "@/constants/theme";
 import { Ionicons } from "@expo/vector-icons";
 import { Href, router } from "expo-router";
-import { ScrollView, StyleSheet, Text, View, Pressable } from "react-native";
-import { Card } from "@/components/Card";
-import { colors, spacing, radius } from "@/constants/theme";
+import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 
 type MenuItem = {
   title: string;
@@ -17,9 +17,9 @@ const menuItems: MenuItem[] = [
   { title: "Produtos", subtitle: "Gerenciar", icon: "bag-outline", href: "/produtos" },  
   { title: "Combos", subtitle: "Gerenciar", icon: "gift-outline", href: "/combos" },
   { title: "Ordens de Serv.", subtitle: "Gerenciar", icon: "document-text-outline" },
-  { title: "Dashboard", subtitle: "Gerenciar", icon: "trending-up-outline" },
+  { title: "Dashboard", subtitle: "Gerenciar", icon: "trending-up-outline", href: "/dashboard" },
   { title: "Funcionários", subtitle: "Gerenciar", icon: "person-outline" },
-  { title: "Custos", subtitle: "Gerenciar", icon: "cash-outline" },
+  { title: "Custos", subtitle: "Gerenciar", icon: "cash-outline", href: "/custos" },
   { title: "Lembretes", subtitle: "Gerenciar", icon: "time-outline" },
 ]; 
 

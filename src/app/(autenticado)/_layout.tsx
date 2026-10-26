@@ -1,11 +1,11 @@
-import { Redirect, Tabs } from "expo-router";
-import { useAuth } from "@/context/AuthContext";
-import { Ionicons } from "@expo/vector-icons";
-import { ServicosProvider } from "@/context/ServicosContext";
 import { colors } from "@/constants/theme";
-import { ProdutosProvider } from "@/context/ProdutosContext";
-import { CombosProvider } from "@/context/CombosContext";
+import { useAuth } from "@/context/AuthContext";
 import { ClientesProvider } from "@/context/ClientesContext";
+import { CombosProvider } from "@/context/CombosContext";
+import { ProdutosProvider } from "@/context/ProdutosContext";
+import { ServicosProvider } from "@/context/ServicosContext";
+import { Ionicons } from "@expo/vector-icons";
+import { Redirect, Tabs } from "expo-router";
 
 export default function AutenticadoLayout() {
   const { user } = useAuth();
@@ -55,6 +55,8 @@ export default function AutenticadoLayout() {
                   tabBarIcon: ({ color, size }) => <Ionicons name="menu-outline" size={size} color={color} />,
                 }}
               />
+              {/* dashboard acessado pelo menu da Home, sem aba própria */}
+              <Tabs.Screen name="dashboard" options={{ href: null }} />
               {/* pasta de serviços: rota existe, mas não vira uma aba */}
               <Tabs.Screen name="servicos" options={{ href: null }} />
               {/* pasta de produtos: rota existe, mas não vira uma aba */}
